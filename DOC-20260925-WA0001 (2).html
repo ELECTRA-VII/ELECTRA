@@ -1,0 +1,257 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ESP32 Weather Station — My Electronics Project</title>
+  <meta name="description" content="An ESP32-based weather station with OLED display and live web dashboard." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="#top">⚡ Weather Station</a>
+    <nav>
+      <a href="#overview">Overview</a>
+      <a href="#features">Features</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#hardware">Hardware</a>
+      <a href="#schematic">Schematic</a>
+      <a href="#build">Build</a>
+      <a href="#code">Code</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Electronics Project</p>
+      <h1>ESP32 Weather Station</h1>
+      <p class="lead">
+        A Wi-Fi connected weather station that measures temperature, humidity and
+        pressure — shown on a local OLED and streamed to a live web dashboard.
+      </p>
+      <div class="tags">
+        <span class="tag">ESP32</span>
+        <span class="tag">BME280</span>
+        <span class="tag">Arduino</span>
+        <span class="tag">3D-printed case</span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn" href="#build">How I built it</a>
+        <a class="btn btn-ghost" href="https://github.com/YOUR-USERNAME/YOUR-REPO">Source code</a>
+      </div>
+      <img class="hero-img" src="images/hero.jpg" alt="Finished ESP32 weather station sitting on a desk" />
+    </div>
+  </section>
+
+  <!-- ===== OVERVIEW ===== -->
+  <section id="overview" class="section">
+    <div class="wrap">
+      <h2>Overview</h2>
+      <p>
+        I wanted a weather station that didn't depend on a cloud service. The ESP32
+        reads a BME280 sensor every 30 seconds, shows the values on a 0.96" OLED,
+        and serves a small web page over Wi-Fi so I can check it from my phone.
+      </p>
+      <p>
+        The whole thing runs on 5 V over USB and fits inside a 3D-printed enclosure.
+        Total cost was around $18.
+      </p>
+
+      <div class="stats">
+        <div class="stat"><strong>30 s</strong><span>Sample interval</span></div>
+        <div class="stat"><strong>±0.5 °C</strong><span>Temp accuracy</span></div>
+        <div class="stat"><strong>~$18</strong><span>Build cost</span></div>
+        <div class="stat"><strong>3 days</strong><span>Build time</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES ===== -->
+  <section id="features" class="section alt">
+    <div class="wrap">
+      <h2>Features</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>📶 Wi-Fi dashboard</h3>
+          <p>Live readings served from the ESP32 itself — no external server needed.</p>
+        </article>
+        <article class="card">
+          <h3>🌡️ Accurate sensing</h3>
+          <p>BME280 gives temperature, humidity and barometric pressure in one chip.</p>
+        </article>
+        <article class="card">
+          <h3>🖥️ Local OLED</h3>
+          <p>Works standalone — the display shows everything even without Wi-Fi.</p>
+        </article>
+        <article class="card">
+          <h3>🔋 Low power</h3>
+          <p>Deep sleep between samples keeps it running for days on a battery.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALLERY ===== -->
+  <section id="gallery" class="section">
+    <div class="wrap">
+      <h2>Gallery</h2>
+      <div class="gallery">
+        <figure>
+          <img src="images/gallery-1.jpg" alt="Assembled circuit on breadboard" />
+          <figcaption>Breadboard prototype</figcaption>
+        </figure>
+        <figure>
+          <img src="images/gallery-2.jpg" alt="Soldered perfboard version" />
+          <figcaption>Soldered on perfboard</figcaption>
+        </figure>
+        <figure>
+          <img src="images/gallery-3.jpg" alt="3D printed enclosure" />
+          <figcaption>3D-printed case</figcaption>
+        </figure>
+        <figure>
+          <img src="images/gallery-4.jpg" alt="Web dashboard on a phone" />
+          <figcaption>Web dashboard</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HARDWARE ===== -->
+  <section id="hardware" class="section alt">
+    <div class="wrap">
+      <h2>Hardware / Bill of Materials</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Part</th><th>Qty</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>ESP32 DevKit V1</td><td>1</td><td>Any ESP32 board works</td></tr>
+            <tr><td>BME280 module</td><td>1</td><td>I²C version</td></tr>
+            <tr><td>SSD1306 OLED 0.96"</td><td>1</td><td>128×64, I²C</td></tr>
+            <tr><td>Perfboard 5×7 cm</td><td>1</td><td>—</td></tr>
+            <tr><td>Push button</td><td>1</td><td>Reset / mode switch</td></tr>
+            <tr><td>Jumper wire</td><td>—</td><td>Solid core, 22 AWG</td></tr>
+            <tr><td>3D-printed case</td><td>1</td><td>STL in <code>/hardware</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SCHEMATIC ===== -->
+  <section id="schematic" class="section">
+    <div class="wrap">
+      <h2>Schematic</h2>
+      <p>Both I²C devices share the same bus. The BME280 is at <code>0x76</code> and the OLED at <code>0x3C</code>.</p>
+      <figure class="wide">
+        <img src="images/schematic.png" alt="Wiring schematic between ESP32, BME280 and OLED" />
+        <figcaption>Wiring diagram — ESP32 to BME280 and SSD1306 over I²C</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ESP32</th><th>Connects to</th></tr></thead>
+          <tbody>
+            <tr><td>GPIO 21 (SDA)</td><td>BME280 SDA + OLED SDA</td></tr>
+            <tr><td>GPIO 22 (SCL)</td><td>BME280 SCL + OLED SCL</td></tr>
+            <tr><td>3V3</td><td>Both VCC</td></tr>
+            <tr><td>GND</td><td>Both GND</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BUILD ===== -->
+  <section id="build" class="section alt">
+    <div class="wrap">
+      <h2>Build Steps</h2>
+      <ol class="steps">
+        <li>
+          <h3>Wire it up on a breadboard</h3>
+          <p>Connect both I²C devices to GPIO 21/22 and run an I²C scanner sketch to confirm the addresses.</p>
+        </li>
+        <li>
+          <h3>Flash the firmware</h3>
+          <p>Install the ESP32 board package in the Arduino IDE, then open <code>firmware/weather_station.ino</code> and set your Wi-Fi credentials.</p>
+        </li>
+        <li>
+          <h3>Solder to perfboard</h3>
+          <p>Move the circuit to perfboard once it works. Keep the I²C traces short to avoid noise.</p>
+        </li>
+        <li>
+          <h3>Print and fit the case</h3>
+          <p>Print the enclosure, cut a window for the OLED, and hot-glue the board in place.</p>
+        </li>
+        <li>
+          <h3>Calibrate</h3>
+          <p>Compare against a known thermometer and apply an offset in the config if needed.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===== CODE ===== -->
+  <section id="code" class="section">
+    <div class="wrap">
+      <h2>Code</h2>
+      <p>The core loop reads the sensor and pushes values to the web server:</p>
+<pre><code>void loop() {
+  float t = bme.readTemperature();
+  float h = bme.readHumidity();
+  float p = bme.readPressure() / 100.0F;
+
+  display.clearDisplay();
+  display.setCursor(0, 0);
+  display.printf("%.1f C\n", t);
+  display.printf("%.0f %%\n", h);
+  display.printf("%.0f hPa\n", p);
+  display.display();
+
+  server.handleClient();
+  delay(30000);
+}</code></pre>
+      <p>
+        Full source, libraries and the PlatformIO config are in the
+        <a href="https://github.com/YOUR-USERNAME/YOUR-REPO">GitHub repository</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== RESULTS ===== -->
+  <section id="results" class="section alt">
+    <div class="wrap">
+      <h2>Results</h2>
+      <p>
+        The station has been running continuously for three weeks. Temperature
+        tracks within 0.4 °C of a commercial indoor sensor, and the web dashboard
+        responds in under 200 ms on the local network.
+      </p>
+      <figure class="wide">
+        <img src="images/results.png" alt="Chart of temperature readings over one week" />
+        <figcaption>One week of logged temperature data</figcaption>
+      </figure>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>Built by <strong>Your Name</strong> · <a href="https://github.com/YOUR-USERNAME">GitHub</a></p>
+    <p class="muted">Licensed under MIT. Last updated <span id="year"></span>.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
