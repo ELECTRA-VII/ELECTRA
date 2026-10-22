@@ -14,4 +14,4 @@ Regulation
 Apparatus
 
 
-May quantum randomness bless China
+Yep! Anthony Edward Stark like abbreviation heheh
